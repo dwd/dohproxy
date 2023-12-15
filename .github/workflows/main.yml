@@ -8,11 +8,21 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Check it out now
         uses: actions/checkout@v2
 
       - name: Funk
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: dwd
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Soul
         uses: docker/build-push-action@v2
         with:
           context: .

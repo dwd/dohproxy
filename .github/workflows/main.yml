@@ -38,7 +38,7 @@ jobs:
           tags: ghcr.io/dwd/doh-proxy:latest
 
       - name: Soul
-        uses: applyboy/ssh-action@master
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER1 }}
           username: ${{ secrets.SSH_USER }}
@@ -46,12 +46,12 @@ jobs:
           script: ./doh-proxy-deploy.sh
 
       - name: Brother
-        uses: applyboy/ssh-action@master
+        uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SERVER1 }}
+          host: ${{ secrets.SERVER2 }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: ./doh-proxy-deploy.sh
 
       - name: Check it out now
-        run: dig @${{ secrets.TEST_DEPLOY }} +https google.co.uk
+        run: dig @${{ secrets.MAIN_DEPLOY }} +https google.co.uk

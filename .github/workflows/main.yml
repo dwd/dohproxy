@@ -35,7 +35,10 @@ jobs:
           host: ${{ secrets.SERVER2 }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          script: ./doh-proxy-test.sh
+          script: |
+            docker compose pull doh-test
+            docker compose rm --stop --force doh-test
+            docker compose up -d doh-test
 
       - name: Check it out now
         run: dig @${{ secrets.TEST_DEPLOY }} +https google.co.uk
@@ -45,23 +48,29 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/dwd/doh-proxy:latest
+          tags: ghcr.io/dwd/doh-proxy:live
 
       - name: Soul
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SERVER1 }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          script: ./doh-proxy-deploy.sh
-
-      - name: Brother
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER2 }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          script: ./doh-proxy-deploy.sh
+          script: |
+            docker compose pull doh-live
+            docker compose rm --stop --force doh-live
+            docker compose up -d doh-live
+
+      - name: Brother
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER1 }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            docker compose pull doh-live
+            docker compose rm --stop --force doh-live
+            docker compose up -d doh-live
 
       - name: Check it out now
         run: dig @${{ secrets.MAIN_DEPLOY }} +https google.co.uk

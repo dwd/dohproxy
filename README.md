@@ -4,9 +4,7 @@ A (fairly trivial) DNS over HTTPS (RFC 8484) proxy, written in Node.js/TypeScrip
 
 ## Workflow Status
 
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/dwd/doh-proxy/build-and-push?label=Build)
-
-[![Actions Status](https://github.com/dwd/doh-proxy/workflows/build-and-push/badge.svg)](https://github.com/dwd/doh-proxy/actions)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/dwd/dohproxy/main.yml?branch=main)
 
 ## Install Dependencies
 
